@@ -1,4 +1,4 @@
-import { injectable, inject, TargetTypeEnum } from 'inversify';
+import { injectable, inject } from 'inversify';
 import TYPES from '../constants/types';
 import { IParkingLotRepository } from '../repositories/parking-lot.repository';
 import { Request } from 'express';
@@ -22,7 +22,7 @@ export class ParkingLotService implements IParkingLotService {
         @inject(TYPES.ICarSizeRepository) private carSizeRepository: ICarSizeRepository,
     ) {}
     public async createParkingLot(request: Request): Promise<JResult<ParkingLotData>> {
-        const { code, size }: { code: string, size: string } = request.body;
+        const { code, size, range }: { code: string, size: string, range: number } = request.body;
         const oldCode = await this.parkingLotRepository.getParkingLot(code);
         if (oldCode) {
             return {
@@ -45,6 +45,7 @@ export class ParkingLotService implements IParkingLotService {
             code,
             isFree: true,
             plateNumber: '',
+            range,
             updateAt: Date.now(),
         };
         const result = await this.parkingLotRepository.createParkingLot(parkingLotData);
@@ -78,6 +79,7 @@ export class ParkingLotService implements IParkingLotService {
                 code,
                 plateNumber,
                 isFree: false,
+                range: parkingLot.range,
                 updateAt: Date.now()
             };
             const result = await this.parkingLotRepository.updateParkingLot(code, updateParkingLot);
@@ -97,13 +99,15 @@ export class ParkingLotService implements IParkingLotService {
                     errorCode: 'E05',
                 };
             } else {
+                const nearestParkingLot = freeParkingLot.sort((x,y) => (x.range > y.range) ? 1 : ((x.range > y.range) ? -1 : 0))
                 const updateParkingLot = {
-                    code: freeParkingLot[0].code,
+                    code: nearestParkingLot[0].code,
                     plateNumber,
                     isFree: false,
+                    range: nearestParkingLot[0].range,
                     updateAt: Date.now()
                 };
-                const result = await this.parkingLotRepository.updateParkingLot(freeParkingLot[0].code, updateParkingLot);
+                const result = await this.parkingLotRepository.updateParkingLot(nearestParkingLot[0].code, updateParkingLot);
                 return {
                     result: true,
                     errorMessage: '',
@@ -128,6 +132,7 @@ export class ParkingLotService implements IParkingLotService {
             code,
             plateNumber: '',
             isFree: true,
+            range: parkingLot.range,
             updateAt: Date.now()
         };
         const result = await this.parkingLotRepository.updateParkingLot(code, updateParkingLot);

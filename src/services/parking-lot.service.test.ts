@@ -31,6 +31,7 @@ describe('Parking Lot service', () => {
             code: 'A01',
             isFree: true,
             plateNumber: '',
+            range: 5,
             updateAt: 1628261234376
         },
         {
@@ -39,6 +40,7 @@ describe('Parking Lot service', () => {
             code: 'A02',
             isFree: false,
             plateNumber: 'A1-1234',
+            range: 4,
             updateAt: 1628261234376
         },
         {
@@ -47,6 +49,7 @@ describe('Parking Lot service', () => {
             code: 'A03',
             isFree: true,
             plateNumber: '',
+            range: 5,
             updateAt: 1628261234376
         },
         {
@@ -55,6 +58,7 @@ describe('Parking Lot service', () => {
             code: 'A04',
             isFree: false,
             plateNumber: 'B2-3456',
+            range: 4,
             updateAt: 1628261234376
         },
         {
@@ -63,6 +67,7 @@ describe('Parking Lot service', () => {
             code: 'A05',
             isFree: false,
             plateNumber: 'C3-4567',
+            range: 5,
             updateAt: 1628261234376
         },
         {
@@ -71,6 +76,7 @@ describe('Parking Lot service', () => {
             code: 'A06',
             isFree: false,
             plateNumber: 'D4-5678',
+            range: 4,
             updateAt: 1628261234376
         }
     ]
@@ -116,6 +122,7 @@ describe('Parking Lot service', () => {
                 body: {
                     code: "A21",
                     size: "small",
+                    range: 6,
                 }
             } as any);
             expect(spyCreateParkingLot).toBeCalledWith({
@@ -123,6 +130,7 @@ describe('Parking Lot service', () => {
                 code: "A21",
                 isFree: true,
                 plateNumber: '',
+                range: 6,
                 updateAt: Date.now(),
             });
         });
@@ -131,6 +139,7 @@ describe('Parking Lot service', () => {
                 body: {
                     code: "A21",
                     size: "XXX",
+                    range: 6,
                 }
             } as any);
             expect(response).toEqual({
@@ -145,6 +154,7 @@ describe('Parking Lot service', () => {
                 body: {
                     code: "A01",
                     size: "small",
+                    range: 6,
                 }
             } as any);
             expect(response).toEqual(
@@ -166,6 +176,7 @@ describe('Parking Lot service', () => {
                     code: 'A01',
                     plateNumber: 'B2-1234',
                     isFree: false,
+                    range: 5,
                     updateAt: Date.now()
                 }
             );
@@ -211,6 +222,7 @@ describe('Parking Lot service', () => {
                     code: 'A02',
                     plateNumber: '',
                     isFree: true,
+                    range: 4,
                     updateAt: Date.now()
                 }
             );
