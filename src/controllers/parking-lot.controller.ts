@@ -23,9 +23,37 @@ export class ParkingLotController extends BaseHttpController {
         return this.json(content, statusCode);
     }
 
-    @httpPost('/parkcar')
+    @httpPost('/park')
     public async parkCar(req: Request, res: Response, next: NextFunction): Promise<JsonResult> {
-        const content = await this.parkingLotService.parkCar(req);
+        const content = await this.parkingLotService.parkACar(req);
+        const statusCode = 200;
+        return this.json(content, statusCode);
+    }
+
+    @httpPost('/leave')
+    public async leave(req: Request, res: Response, next: NextFunction): Promise<JsonResult> {
+        const content = await this.parkingLotService.freeSlot(req);
+        const statusCode = 200;
+        return this.json(content, statusCode);
+    }
+
+    @httpGet('/status/:code')
+    public async status(req: Request, res: Response, next: NextFunction): Promise<JsonResult> {
+        const content = await this.parkingLotService.getParkingLotStatus(req);
+        const statusCode = 200;
+        return this.json(content, statusCode);
+    }
+
+    @httpGet('/reg/:size')
+    public async registerationPlate(req: Request, res: Response, next: NextFunction): Promise<JsonResult> {
+        const content = await this.parkingLotService.getRegisterationPlate(req);
+        const statusCode = 200;
+        return this.json(content, statusCode);
+    }
+
+    @httpGet('/allocated/:size')
+    public async allocated(req: Request, res: Response, next: NextFunction): Promise<JsonResult> {
+        const content = await this.parkingLotService.getAllocatedSlot(req);
         const statusCode = 200;
         return this.json(content, statusCode);
     }
