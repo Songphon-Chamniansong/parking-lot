@@ -1,6 +1,6 @@
 import { inject } from 'inversify';
 import { controller, httpGet } from 'inversify-express-utils';
-import TYPES from '../constants/types';
+import TYPES from '../config/types';
 import { HomeService } from '../services/home.service';
 
 @controller('/')

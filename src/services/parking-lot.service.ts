@@ -1,5 +1,6 @@
 import { injectable, inject } from 'inversify';
-import TYPES from '../constants/types';
+import TYPES from '../config/types';
+import ERROR from '../config/error'
 import { IParkingLotRepository } from '../repositories/parking-lot.repository';
 import { Request } from 'express';
 import { ParkingLotData } from '../data/parking-lot.data';
@@ -27,16 +28,16 @@ export class ParkingLotService implements IParkingLotService {
         if (oldCode) {
             return {
                 result: false,
-                errorMessage: 'Code is already used, Please use the new one',
-                errorCode: 'E01'
+                errorMessage: ERROR.CodeUsed.message,
+                errorCode: ERROR.CodeUsed.code
             };
         }
         const sizeData = await this.carSizeRepository.getCarSize(size.toLowerCase());
         if(!sizeData) {
             return {
                 result: false,
-                errorMessage: 'Car size is not support',
-                errorCode: 'E02'
+                errorMessage: ERROR.SizeNotSupport.message,
+                errorCode: ERROR.SizeNotSupport.code
             };
         }
 
@@ -64,15 +65,15 @@ export class ParkingLotService implements IParkingLotService {
             if (!parkingLot.isFree) {
                 return {
                     result: false,
-                    errorMessage: 'Parking Lot is not available to park.',
-                    errorCode: 'E03'
+                    errorMessage: ERROR.ParkingLotIsFull.message,
+                    errorCode: ERROR.ParkingLotIsFull.code
                 };
             }
             if (parkingLot.updateAt !== updateAt) {
                 return {
                     result: false,
-                    errorMessage: 'Your information is not up to date',
-                    errorCode: 'E04'
+                    errorMessage: ERROR.NotUpToDate.message,
+                    errorCode: ERROR.NotUpToDate.code
                 };
             }
             const updateParkingLot = {
@@ -95,8 +96,8 @@ export class ParkingLotService implements IParkingLotService {
             if (!freeParkingLot || freeParkingLot.filter(x => x.isFree).length <= 0) {
                 return {
                     result: false,
-                    errorMessage: `Parking Lot is full for ${size} car`,
-                    errorCode: 'E05',
+                    errorMessage: ERROR.ParkingLotIsFull.message,
+                    errorCode: ERROR.ParkingLotIsFull.code,
                 };
             } else {
                 const nearestParkingLot = freeParkingLot.sort((x,y) => (x.range > y.range) ? 1 : ((x.range > y.range) ? -1 : 0))
@@ -124,8 +125,8 @@ export class ParkingLotService implements IParkingLotService {
         if (!parkingLot) {
             return {
                 result: false,
-                errorMessage: 'Parking Lot code is not match',
-                errorCode: 'E06',
+                errorMessage: ERROR.CodeIsNotMatch.message,
+                errorCode: ERROR.CodeIsNotMatch.code,
             };
         }
         const updateParkingLot = {
@@ -150,8 +151,8 @@ export class ParkingLotService implements IParkingLotService {
         if (!parkingLot) {
             return {
                 result: false,
-                errorMessage: 'Code is not match for Parking Lot',
-                errorCode: 'E07',
+                errorMessage: ERROR.CodeIsNotMatch.message,
+                errorCode: ERROR.CodeIsNotMatch.code,
             };
         }
         return {
@@ -170,8 +171,8 @@ export class ParkingLotService implements IParkingLotService {
         if(!sizeData) {
             return {
                 result: false,
-                errorMessage: 'Car size is not support',
-                errorCode: 'E02'
+                errorMessage: ERROR.SizeNotSupport.message,
+                errorCode: ERROR.SizeNotSupport.code
             };
         }
         const parkingLots = await this.parkingLotRepository.getParkingLotByCarSize(sizeData.id);
@@ -190,8 +191,8 @@ export class ParkingLotService implements IParkingLotService {
         if(!sizeData) {
             return {
                 result: false,
-                errorMessage: 'Car size is not support',
-                errorCode: 'E02'
+                errorMessage: ERROR.SizeNotSupport.message,
+                errorCode: ERROR.SizeNotSupport.code
             };
         }
         const parkingLots = await this.parkingLotRepository.getParkingLotByCarSize(sizeData.id);

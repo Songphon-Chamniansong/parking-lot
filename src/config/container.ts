@@ -3,7 +3,7 @@ import { Container } from 'inversify';
 import { IParkingLotRepository, ParkingLotRepository } from '../repositories/parking-lot.repository';
 import { ICarSizeRepository, CarSizeRepository } from '../repositories/car-size.repository';
 import { IParkingLotService, ParkingLotService } from '../services/parking-lot.service';
-import TYPES from '../constants/types';
+import TYPES from './types';
 
 export class ContainerConfigLoader {
     public static Load(): Container {

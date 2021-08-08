@@ -134,7 +134,7 @@ describe('Parking Lot service', () => {
                 updateAt: Date.now(),
             });
         });
-        it("Should return error, car size is not support", async () => {
+        it("Should return false, car size is not support", async () => {
             const response = await parkingLotService.createParkingLot({
                 body: {
                     code: "A21",
@@ -149,7 +149,7 @@ describe('Parking Lot service', () => {
                 }
             );
         });
-        it("Should return error, code is already exists", async () => {
+        it("Should return false, code is already exists", async () => {
             const response = await parkingLotService.createParkingLot({
                 body: {
                     code: "A01",
@@ -191,13 +191,13 @@ describe('Parking Lot service', () => {
                 }
             );
         });
-        it("Should return false, Parking Lot is full for large car", async () => {
+        it("Should return false, Parking Lot is not available to park.", async () => {
             const result = await parkingLotService.parkACar({ body: { plateNumber: 'B2-1234', size: 'large' } } as any);
             expect(result).toEqual(
                 {
                     result: false,
-                    errorMessage: 'Parking Lot is full for large car',
-                    errorCode: 'E05',
+                    errorMessage: 'Parking Lot is not available to park.',
+                    errorCode: 'E03',
                 }
             );
         });
@@ -233,7 +233,7 @@ describe('Parking Lot service', () => {
                 {
                     result: false,
                     errorMessage: 'Parking Lot code is not match',
-                    errorCode: 'E06',
+                    errorCode: 'E05',
                 }
             );
         });
@@ -253,13 +253,13 @@ describe('Parking Lot service', () => {
                 }
             );
         });
-        it("Should return false, Code is not match for Parking Lot", async () => {
+        it("Should return false, Parking Lot code is not match", async () => {
             const result = await parkingLotService.getParkingLotStatus({ params: { code: 'A21' }} as any);
             expect(result).toEqual(
                 {
                     result: false,
-                    errorMessage: 'Code is not match for Parking Lot',
-                    errorCode: 'E07',
+                    errorMessage: 'Parking Lot code is not match',
+                    errorCode: 'E05',
                 }
             );
         });

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { inject } from 'inversify';
 import { BaseHttpController, controller, httpGet, httpPost } from 'inversify-express-utils';
 import { JsonResult } from 'inversify-express-utils/dts/results';
-import TYPES from '../constants/types';
+import TYPES from '../config/types';
 import { IParkingLotService } from '../services/parking-lot.service';
 
 @controller('/parking-lot')
