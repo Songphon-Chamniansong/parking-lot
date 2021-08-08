@@ -10,6 +10,7 @@ export class DbConnection {
        return mongoose.connect(connStr,
             { useFindAndModify: false, autoIndex: true },
             ).then(() => {
+                // init data in data base for first run
                 InitDataBase.init().then(()=> {
                     console.log(`Successfully connected to database`);
                 });

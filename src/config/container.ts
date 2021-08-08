@@ -6,8 +6,14 @@ import { IParkingLotService, ParkingLotService } from '../services/parking-lot.s
 import TYPES from './types';
 
 export class ContainerConfigLoader {
+    /**
+     * register type and interface
+     * @returns Container
+     */
     public static Load(): Container {
         const container = new Container();
+        // example data
+        // container.bind<Interface>(TYPES.Interface).to(Class);
 
         // binding services
         container.bind<HomeService>(TYPES.HomeService).to(HomeService);

@@ -1,10 +1,14 @@
 import MongoMemoryServer from 'mongodb-memory-server-core/lib/MongoMemoryServer';
 import { DbConnection } from '../../db/utils/connection.db';
 
+/**
+ * DbMock for mock database
+ */
 export class DbMock {
     public static mongod: MongoMemoryServer;
 
     public static async initDbMock() {
+        // init mock mongo db server
         DbMock.mongod = await MongoMemoryServer.create({
             instance: {
                 dbName: process.env.DB_DB_NAME,
