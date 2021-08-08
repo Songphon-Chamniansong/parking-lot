@@ -7,7 +7,7 @@ import { ICarSizeRepository } from '../repositories/car-size.repository';
 import { JResult, JResultList } from '../data/result.data';
 
 export interface IParkingLotService {
-    createParkingLot(request: Request): Promise<JResult<boolean>>;
+    createParkingLot(request: Request): Promise<JResult<ParkingLotData>>;
     parkACar(request: Request): Promise<JResult<ParkingLotData>>;
     freeSlot(request: Request): Promise<JResult<ParkingLotData>>;
     getParkingLotStatus(equest: Request): Promise<JResult<{ isAvailable: boolean }>>;
@@ -21,8 +21,8 @@ export class ParkingLotService implements IParkingLotService {
         @inject(TYPES.IParkingLotRepository) private parkingLotRepository: IParkingLotRepository,
         @inject(TYPES.ICarSizeRepository) private carSizeRepository: ICarSizeRepository,
     ) {}
-    public async createParkingLot(request: Request): Promise<JResult<boolean>> {
-        const { code, size } = request.body;
+    public async createParkingLot(request: Request): Promise<JResult<ParkingLotData>> {
+        const { code, size }: { code: string, size: string } = request.body;
         const oldCode = await this.parkingLotRepository.getParkingLot(code);
         if (oldCode) {
             return {
@@ -31,7 +31,7 @@ export class ParkingLotService implements IParkingLotService {
                 errorCode: 'E01'
             };
         }
-        const sizeData = await this.carSizeRepository.getCarSize(size);
+        const sizeData = await this.carSizeRepository.getCarSize(size.toLowerCase());
         if(!sizeData) {
             return {
                 result: false,
@@ -49,14 +49,15 @@ export class ParkingLotService implements IParkingLotService {
         };
         const result = await this.parkingLotRepository.createParkingLot(parkingLotData);
         return {
-            result,
+            result: true,
             errorMessage: '',
-            errorCode: ''
+            errorCode: '',
+            value: result
         };
     }
 
     public async parkACar(request: Request): Promise<JResult<ParkingLotData>> {
-        const { plateNumber, size, updateAt, code } = request.body;
+        const { plateNumber, size, updateAt, code }: { plateNumber: string, size: string, updateAt: number, code: string } = request.body;
         if (code) {
             const parkingLot = await this.parkingLotRepository.getParkingLot(code);
             if (!parkingLot.isFree) {
@@ -87,7 +88,7 @@ export class ParkingLotService implements IParkingLotService {
                 value: result
             };
         } else {
-            const sizeData = await this.carSizeRepository.getCarSize(size);
+            const sizeData = await this.carSizeRepository.getCarSize(size.toLowerCase());
             const freeParkingLot = await this.parkingLotRepository.getParkingLotByCarSize(sizeData.id);
             if (!freeParkingLot || freeParkingLot.filter(x => x.isFree).length <= 0) {
                 return {
@@ -114,18 +115,18 @@ export class ParkingLotService implements IParkingLotService {
     }
 
     public async freeSlot(request: Request): Promise<JResult<ParkingLotData>> {
-        const { code, plateNumber } = request.body;
+        const { code } = request.body;
         const parkingLot = await this.parkingLotRepository.getParkingLot(code);
-        if (plateNumber !== parkingLot.plateNumber) {
+        if (!parkingLot) {
             return {
                 result: false,
-                errorMessage: 'plate number is not match for parking lot code',
+                errorMessage: 'Parking Lot code is not match',
                 errorCode: 'E06',
             };
         }
         const updateParkingLot = {
             code,
-            plateNumber,
+            plateNumber: '',
             isFree: true,
             updateAt: Date.now()
         };
@@ -159,8 +160,8 @@ export class ParkingLotService implements IParkingLotService {
     }
 
     public async getRegisterationPlate(request: Request): Promise<JResultList<string>> {
-        const carSize: string = request.params.size;
-        const sizeData = await this.carSizeRepository.getCarSize(carSize);
+        const size: string = request.params.size || '';
+        const sizeData = await this.carSizeRepository.getCarSize(size.toLowerCase());
         if(!sizeData) {
             return {
                 result: false,
@@ -169,7 +170,7 @@ export class ParkingLotService implements IParkingLotService {
             };
         }
         const parkingLots = await this.parkingLotRepository.getParkingLotByCarSize(sizeData.id);
-        const result = parkingLots.map( x => x.plateNumber);
+        const result = parkingLots.filter(x => !x.isFree).map(x => x.plateNumber);
         return {
             result: true,
             errorMessage: '',
@@ -179,8 +180,8 @@ export class ParkingLotService implements IParkingLotService {
     }
 
     public async getAllocatedSlot(request: Request): Promise<JResultList<string>> {
-        const carSize: string = request.params.size;
-        const sizeData = await this.carSizeRepository.getCarSize(carSize);
+        const size: string = request.params.size || '';
+        const sizeData = await this.carSizeRepository.getCarSize(size.toLowerCase());
         if(!sizeData) {
             return {
                 result: false,

@@ -8,7 +8,9 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "start": "node dist/bundle.js",
-    "build:dev": "tsc"
+    "copy:dev": "cp env/dev/.env dist",
+    "build:dev": "tsc && npm run copy:dev",
+    "start:dev": "node dist/app.js"
   },
   "author": "I am Teemo",
   "license": "MIT",

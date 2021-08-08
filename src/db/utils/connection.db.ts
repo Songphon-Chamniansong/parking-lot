@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { InitDataBase } from './init.db';
 
 export class DbConnection {
     public static async initConnection(dbUri: string) {
@@ -9,6 +10,7 @@ export class DbConnection {
        return mongoose.connect(connStr,
             { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true },
             ).then(() => {
+                InitDataBase.init();
                 console.log(`Successfully connected`);
             }).catch((error) => {
                 console.error('Error connecting to database: ', error);

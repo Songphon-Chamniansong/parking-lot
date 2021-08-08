@@ -204,23 +204,23 @@ describe('Parking Lot service', () => {
 
     describe('freeSlot', () => {
         it("Should call UpdateParkingLot", async () => {
-            const result = await parkingLotService.freeSlot({ body: { code: 'A02', plateNumber: 'A1-1234' } } as any);
+            const result = await parkingLotService.freeSlot({ body: { code: 'A02' } } as any);
             Date.now = jest.fn(() => 1628261234377)
             expect(spyUpdateParkingLot).toBeCalledWith('A02',
                 {
                     code: 'A02',
-                    plateNumber: 'A1-1234',
+                    plateNumber: '',
                     isFree: true,
                     updateAt: Date.now()
                 }
             );
         });
-        it("Should call false, plate number is not match for parking lot code", async () => {
-            const result = await parkingLotService.freeSlot({ body: { code: 'A02', plateNumber: '1111' } } as any);
+        it("Should call false, Parking Lot code is not match", async () => {
+            const result = await parkingLotService.freeSlot({ body: { code: 'A44' } } as any);
             expect(result).toEqual(
                 {
                     result: false,
-                    errorMessage: 'plate number is not match for parking lot code',
+                    errorMessage: 'Parking Lot code is not match',
                     errorCode: 'E06',
                 }
             );

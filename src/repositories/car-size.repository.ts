@@ -13,44 +13,40 @@ export interface ICarSizeRepository {
 @injectable()
 export class CarSizeRepository implements ICarSizeRepository {
     public async getAllCarSize(): Promise<CarSizeData[]> {
-       return CarSize.find()
-            .then((data: ICarSize[]) => {
-                const result = data.map((x: ICarSize) => {
-                    return {
-                        id: x.id,
-                        size: x.size,
-                    }
-                });
-                return result;
-            })
-            .catch((error: Error) => {
-                throw error;
+        const data = await CarSize.find();
+        if (data && data.length > 0) {
+            return data.map((x: ICarSize) => {
+                return {
+                    id: x.id,
+                    size: x.size,
+                }
             });
+        } else {
+            return [];
+        }
     }
     public async getCarSize(size: string): Promise<CarSizeData> {
-        return CarSize.findOne({ size })
-            .then((data: ICarSize) => {
-                return {
-                    id: data._id,
-                    size: data.size
-                };
-            })
-            .catch((error: Error) => {
-                throw error;
-            });
+        const data = await CarSize.findOne({ size });
+        if (data) {
+            return {
+                id: data._id,
+                size: data.size
+            };
+        } else {
+            return null;
+        }
     }
 
     public async createCarSize(carSizeData: CarSizeData): Promise<CarSizeData> {
-        return CarSize.create(carSizeData)
-            .then((data: ICarSize) => {
-                return {
-                    id: data.id,
-                    size: data.size
-                };
-            })
-            .catch((error: Error) => {
-                throw error;
-            });
+        const data = await CarSize.create(carSizeData);
+        if (data) {
+            return {
+                id: data.id,
+                size: data.size
+            };
+        } else {
+            return null;
+        }
     }
 
     public async deleteCarSize(id: string): Promise<boolean> {
