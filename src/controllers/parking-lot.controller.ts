@@ -18,6 +18,13 @@ export class ParkingLotController extends BaseHttpController {
 
     @httpPost('/')
     public async createParkingLot(req: Request, res: Response, next: NextFunction): Promise<JsonResult> {
+        const content = await this.parkingLotService.createParkingLot(req);
+        const statusCode = 200;
+        return this.json(content, statusCode);
+    }
+
+    @httpPost('/parkcar')
+    public async parkCar(req: Request, res: Response, next: NextFunction): Promise<JsonResult> {
         const content = await this.parkingLotService.parkCar(req);
         const statusCode = 200;
         return this.json(content, statusCode);

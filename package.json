@@ -6,6 +6,7 @@
     "dev": "webpack --config webpack.dev.config.js",
     "prod": "webpack --config webpack.prod.config.js",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "start": "node dist/bundle.js",
     "build:dev": "tsc"
   },

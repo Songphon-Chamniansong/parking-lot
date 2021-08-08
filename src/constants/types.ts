@@ -6,6 +6,7 @@ const TYPES = {
 
     // Repositories
     IParkingLotRepository: Symbol.for('IParkingLotRepository'),
+    ICarSizeRepository: Symbol.for('ICarSizeRepository'),
 };
 
 export default TYPES;

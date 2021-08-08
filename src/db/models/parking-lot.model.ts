@@ -1,16 +1,19 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { ICarSize } from './car-size.model';
 
 export interface IParkingLot extends Document {
     code: string;
-    size: string;
+    carSizeId: ICarSize['_id'];
+    isFree: boolean;
     plateNumber: string;
     updateAt: number;
 }
 
 const ParkingLotSchema: Schema = new Schema({
     code: { type: String, required: false },
-    size: { type: String, required: true },
-    plateNumber: { type: String },
+    carSizeId: { type: Schema.Types.ObjectId, required: true },
+    isFree: { type: Boolean, default: false },
+    plateNumber: { type: String, default: '' },
     updateAt: { type: Number },
 });
 

@@ -1,6 +1,7 @@
 import { HomeService } from '../services/home.service';
 import { Container } from 'inversify';
 import { IParkingLotRepository, ParkingLotRepository } from '../repositories/parking-lot.repository';
+import { ICarSizeRepository, CarSizeRepository } from '../repositories/car-size.repository';
 import { IParkingLotService, ParkingLotService } from '../services/parking-lot.service';
 import TYPES from '../constants/types';
 
@@ -14,6 +15,7 @@ export class ContainerConfigLoader {
 
         // binding repositories
         container.bind<IParkingLotRepository>(TYPES.IParkingLotRepository).to(ParkingLotRepository);
+        container.bind<ICarSizeRepository>(TYPES.ICarSizeRepository).to(CarSizeRepository);
         return container;
     }
 }
