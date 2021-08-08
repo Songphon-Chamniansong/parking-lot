@@ -89,13 +89,18 @@ export class InitDataBase {
             updateAt: Date.now()
         }
     ]
+    /**
+     * init data for first run
+     */
     public static async init() {
         const carsize = await CarSize.find();
         if(!carsize || carsize.length <= 0) {
+            // init data when CarSize have no data in database
             CarSize.insertMany(InitDataBase.CarSizeData);
         }
         const parkingLot = await ParkingLot.find();
         if (!parkingLot || parkingLot.length <= 0) {
+            // init data when ParkingLot have no data in database
             ParkingLot.insertMany(InitDataBase.ParkingLotData);
         }
     }

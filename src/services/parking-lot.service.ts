@@ -22,8 +22,11 @@ export class ParkingLotService implements IParkingLotService {
         @inject(TYPES.IParkingLotRepository) private parkingLotRepository: IParkingLotRepository,
         @inject(TYPES.ICarSizeRepository) private carSizeRepository: ICarSizeRepository,
     ) {}
+
+    // function to create parking lot
     public async createParkingLot(request: Request): Promise<JResult<ParkingLotData>> {
         const { code, size, range }: { code: string, size: string, range: number } = request.body;
+        // check is code used in database
         const oldCode = await this.parkingLotRepository.getParkingLot(code);
         if (oldCode) {
             return {
@@ -32,6 +35,7 @@ export class ParkingLotService implements IParkingLotService {
                 errorCode: ERROR.CodeUsed.code
             };
         }
+        // check is size correct
         const sizeData = await this.carSizeRepository.getCarSize(size.toLowerCase());
         if(!sizeData) {
             return {
@@ -41,6 +45,7 @@ export class ParkingLotService implements IParkingLotService {
             };
         }
 
+        // create new parking lot
         const parkingLotData: ParkingLotData = {
             carSizeId: sizeData.id,
             code,
@@ -60,7 +65,9 @@ export class ParkingLotService implements IParkingLotService {
 
     public async parkACar(request: Request): Promise<JResult<ParkingLotData>> {
         const { plateNumber, size, updateAt, code }: { plateNumber: string, size: string, updateAt: number, code: string } = request.body;
+        // park specific parking lot
         if (code) {
+            // check is parking lot available
             const parkingLot = await this.parkingLotRepository.getParkingLot(code);
             if (!parkingLot.isFree) {
                 return {
@@ -69,6 +76,7 @@ export class ParkingLotService implements IParkingLotService {
                     errorCode: ERROR.ParkingLotIsFull.code
                 };
             }
+            // check is timestemp up to date
             if (parkingLot.updateAt !== updateAt) {
                 return {
                     result: false,
@@ -76,6 +84,7 @@ export class ParkingLotService implements IParkingLotService {
                     errorCode: ERROR.NotUpToDate.code
                 };
             }
+            // set parking lot isFree to false, update plateNumber and update updateAt
             const updateParkingLot = {
                 code,
                 plateNumber,
@@ -91,16 +100,20 @@ export class ParkingLotService implements IParkingLotService {
                 value: result
             };
         } else {
+            // get car size id
             const sizeData = await this.carSizeRepository.getCarSize(size.toLowerCase());
             const freeParkingLot = await this.parkingLotRepository.getParkingLotByCarSize(sizeData.id);
             if (!freeParkingLot || freeParkingLot.filter(x => x.isFree).length <= 0) {
+                // parking lot is full
                 return {
                     result: false,
                     errorMessage: ERROR.ParkingLotIsFull.message,
                     errorCode: ERROR.ParkingLotIsFull.code,
                 };
             } else {
-                const nearestParkingLot = freeParkingLot.sort((x,y) => (x.range > y.range) ? 1 : ((x.range > y.range) ? -1 : 0))
+                // sort by range ascending
+                const nearestParkingLot = freeParkingLot.sort((x,y) => (x.range > y.range) ? 1 : ((x.range > y.range) ? -1 : 0));
+                // update parking lot object
                 const updateParkingLot = {
                     code: nearestParkingLot[0].code,
                     plateNumber,
@@ -129,6 +142,7 @@ export class ParkingLotService implements IParkingLotService {
                 errorCode: ERROR.CodeIsNotMatch.code,
             };
         }
+        // reset parking objecyt to default
         const updateParkingLot = {
             code,
             plateNumber: '',
@@ -176,6 +190,7 @@ export class ParkingLotService implements IParkingLotService {
             };
         }
         const parkingLots = await this.parkingLotRepository.getParkingLotByCarSize(sizeData.id);
+        // filter isFree equal false and return list of plate number
         const result = parkingLots.filter(x => !x.isFree).map(x => x.plateNumber);
         return {
             result: true,
@@ -196,6 +211,7 @@ export class ParkingLotService implements IParkingLotService {
             };
         }
         const parkingLots = await this.parkingLotRepository.getParkingLotByCarSize(sizeData.id);
+        // filter isFree equal true and return list of parking lot code
         const result = parkingLots.filter(x => x.isFree).map(x => x.code);
         return {
             result: true,
