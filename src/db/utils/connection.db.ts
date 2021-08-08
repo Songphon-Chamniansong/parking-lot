@@ -8,7 +8,7 @@ export class DbConnection {
 
     public static async connect(connStr: string) {
        return mongoose.connect(connStr,
-            { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true },
+            { useFindAndModify: false, autoIndex: true },
             ).then(() => {
                 InitDataBase.init().then(()=> {
                     console.log(`Successfully connected to database`);

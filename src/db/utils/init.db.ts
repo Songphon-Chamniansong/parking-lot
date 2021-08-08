@@ -22,6 +22,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199c8',
             isFree: true,
             plateNumber: '',
+            range: 5,
             updateAt: Date.now()
         },
         {
@@ -29,6 +30,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199c8',
             isFree: true,
             plateNumber: '',
+            range: 3,
             updateAt: Date.now()
         },
         {
@@ -36,6 +38,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199c8',
             isFree: true,
             plateNumber: '',
+            range: 4,
             updateAt: Date.now()
         },
         {
@@ -50,6 +53,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199c9',
             isFree: true,
             plateNumber: '',
+            range: 5,
             updateAt: Date.now()
         },
         {
@@ -57,6 +61,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199c9',
             isFree: true,
             plateNumber: '',
+            range: 4,
             updateAt: Date.now()
         },
         {
@@ -64,6 +69,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199ca',
             isFree: true,
             plateNumber: '',
+            range: 3,
             updateAt: Date.now()
         },
         {
@@ -71,6 +77,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199ca',
             isFree: true,
             plateNumber: '',
+            range: 4,
             updateAt: Date.now()
         },
         {
@@ -78,6 +85,7 @@ export class InitDataBase {
             carSizeId: '610f909450975571267199ca',
             isFree: true,
             plateNumber: '',
+            range: 5,
             updateAt: Date.now()
         }
     ]

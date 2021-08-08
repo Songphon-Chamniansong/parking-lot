@@ -6,6 +6,7 @@ export interface IParkingLot extends Document {
     carSizeId: ICarSize['_id'];
     isFree: boolean;
     plateNumber: string;
+    range: number;
     updateAt: number;
 }
 
@@ -14,6 +15,7 @@ const ParkingLotSchema: Schema = new Schema({
     carSizeId: { type: Schema.Types.ObjectId, required: true },
     isFree: { type: Boolean, default: false },
     plateNumber: { type: String, default: '' },
+    range: { type: Number },
     updateAt: { type: Number },
 });
 

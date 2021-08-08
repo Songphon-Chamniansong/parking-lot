@@ -24,6 +24,7 @@ export class ParkingLotRepository implements IParkingLotRepository {
                     code: x.code,
                     isFree: x.isFree,
                     plateNumber: x.plateNumber,
+                    range: x.range,
                     updateAt: x.updateAt,
                 }
             });
@@ -42,6 +43,7 @@ export class ParkingLotRepository implements IParkingLotRepository {
                     code: x.code,
                     isFree: x.isFree,
                     plateNumber: x.plateNumber,
+                    range: x.range,
                     updateAt: x.updateAt,
                 }
             });
@@ -59,6 +61,7 @@ export class ParkingLotRepository implements IParkingLotRepository {
                 code: data.code,
                 isFree: data.isFree,
                 plateNumber: data.plateNumber,
+                range: data.range,
                 updateAt: data.updateAt,
             }
         } else {
@@ -75,6 +78,7 @@ export class ParkingLotRepository implements IParkingLotRepository {
                 code: data.code,
                 isFree: data.isFree,
                 plateNumber: data.plateNumber,
+                range: data.range,
                 updateAt: data.updateAt,
             }
         } else {
@@ -91,6 +95,7 @@ export class ParkingLotRepository implements IParkingLotRepository {
                 code: data.code,
                 isFree: data.isFree,
                 plateNumber: data.plateNumber,
+                range: data.range,
                 updateAt: data.updateAt
             };
         } else {

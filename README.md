@@ -60,6 +60,7 @@ This project is use TypeScript, Node, and Mongo DB and Dependency Injection desi
     use for create new parking lot
     @body `code` is Parking lot's Code
     @body `size` is size of the car (small, medium, large)
+    @body `range` is distance from gate
   ### POST /parking-lot/park
     use for park the car
     @body `plateNumber` is plate number

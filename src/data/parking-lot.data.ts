@@ -6,6 +6,7 @@ export interface ParkingLotData {
     code: IParkingLot['code'];
     isFree: IParkingLot['isFree'];
     plateNumber: IParkingLot['plateNumber'];
+    range: IParkingLot['range'];
     updateAt: IParkingLot['updateAt'];
 }
 
