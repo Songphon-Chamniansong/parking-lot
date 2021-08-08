@@ -10,8 +10,9 @@ export class DbConnection {
        return mongoose.connect(connStr,
             { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true },
             ).then(() => {
-                InitDataBase.init();
-                console.log(`Successfully connected`);
+                InitDataBase.init().then(()=> {
+                    console.log(`Successfully connected to database`);
+                });
             }).catch((error) => {
                 console.error('Error connecting to database: ', error);
                 return process.exit(1);
