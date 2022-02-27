@@ -23,10 +23,10 @@ This project is use TypeScript, Node, and Mongo DB and Dependency Injection desi
 3. Create your config in  `/env/dev/.env` or `/env/prod/.env`
    ```JS
     PORT=3000
-    DB_URL=teemo.j6oiv.mongodb.net
-    DB_DB_NAME=thai-vivat
-    DB_USERNAME=admin
-    DB_PASSWORD=UUmxeyZ5e7Tn5Doj
+    DB_URL=Your_DB_URL
+    DB_DB_NAME=Your_DB_DB_NAME
+    DB_USERNAME=Your_DB_USERNAME
+    DB_PASSWORD=Your_DB_PASSWORD
    ```
 ### Build and Run with Docker
 4. Build project with Docker
