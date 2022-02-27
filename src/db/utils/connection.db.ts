@@ -8,7 +8,7 @@ export class DbConnection {
 
     public static async connect(connStr: string) {
        return mongoose.connect(connStr,
-            { useFindAndModify: false, autoIndex: true },
+            { autoIndex: true },
             ).then(() => {
                 // init data in data base for first run
                 InitDataBase.init().then(()=> {

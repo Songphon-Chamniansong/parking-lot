@@ -38,10 +38,10 @@ module.exports = {
         devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     },
     plugins: [
-        new CopyPlugin({
-            patterns: [
-              { from: "env/prod/.env"},
-            ]
-        })
+        // new CopyPlugin({
+        //     patterns: [
+        //       { from: "env/prod/.env"},
+        //     ]
+        // })
     ]
 };
